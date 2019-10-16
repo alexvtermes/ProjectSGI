@@ -65,7 +65,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// <summary>
         /// The rotation in degrees need to apply to model when the Andy model is placed.
         /// </summary>
-        private const float k_ModelRotation = 180.0f;
+        private const float k_ModelRotation = 0.0f;
 
         /// <summary>
         /// True if the app is in the process of quitting due to an ARCore connection error,
@@ -107,7 +107,7 @@ namespace GoogleARCore.Examples.HelloAR
             TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
-
+            int aux = 0;
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
                 // Use hit pose and camera pose to check if hittest is from the
@@ -121,8 +121,8 @@ namespace GoogleARCore.Examples.HelloAR
                 else
                 {
                     // Choose the Andy model for the Trackable that got hit.
-                    GameObject prefab;
-                    if (hit.Trackable is FeaturePoint)
+                    GameObject prefab = AndyVerticalPlanePrefab;
+                    /*if (hit.Trackable is FeaturePoint)
                     {
                         prefab = AndyPointPrefab;
                     }
@@ -142,13 +142,12 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         prefab = AndyHorizontalPlanePrefab;
                     }
-
+                    */
                     // Instantiate Andy model at the hit pose.
                     var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-
                     // Compensate for the hitPose rotation facing away from the raycast (i.e.
                     // camera).
-                    andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                    //andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of
                     // the physical world evolves.
